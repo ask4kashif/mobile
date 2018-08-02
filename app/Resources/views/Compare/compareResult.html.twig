@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+{% include 'Header/header.html.twig' %}
+<div class="container">
+	<div class="row">
+		<div class="col-md-offset-2 col-md-4">
+			{{form_start(form)}}
+			{{form_row(form.compareTo)}}<br>
+			
+			{{form_row(form.save)}}
+		</div>
+		<div class="col-md-4">
+			{{form_row(form.compareWith)}}<br>
+		</div>		
+	</div>
+	<div class="row">
+			<div class="col-md-6">
+				<h3 style="color:blue">{{spec1.name}}</h3>
+				{{ spec1.getDescription()|raw}}
+				
+			</div>
+			<div class="col-md-6">
+				<h3 style="color: blue">{{spec2.name}}</h3>
+				{{spec2.getDescription()|raw}}
+			</div>
+		</div>
+</div>
+
+		{{form_end(form)}}<br>
+{% include 'Footer/footer.html.twig' %}
+{% endblock %}
+{% block stylesheets %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" 
+rel="stylesheet" />
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+<script type="text/javascript">
+    var compare = Routing.generate('comparePage',true);
+      $("#form_compareTo").select2({
+    placeholder: 'Choose an Option',
+    minimumInputLength: 3,
+    source: function( request, response ) {
+        $.ajax({
+            url: compare,
+            
+        });
+    }
+});
+</script>
+<script type="text/javascript">
+    var compare = Routing.generate('comparePage',true);
+      $("#form_compareWith").select2({
+    placeholder: 'Choose an Option',
+    minimumInputLength: 3,
+    source: function( request, response ) {
+        $.ajax({
+            url: compare,
+            
+        });
+    }
+});
+</script>
+
+{% endblock %} 

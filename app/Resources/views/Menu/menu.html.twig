@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<h1>Brands</h1>
+	<ul>
+	{% for item in menu %}
+		<a href="{{ path('_view',{'productId': item.id})}}">{{item.name}}<br></a>
+	{% endfor %}	
+	</ul>
+		</div>
+	</div>
+	
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+		{% for item in product %}		
+		<b>Brand: {{item.brand}}</b><br>
+		<b>Model: {{item.modelName}}</b><br>
+		<b>Price : {{item.price}}</b><br>
+		<b>Color: {{item.color}}</b>
+		<a href="{{path('_show',{'id' : item.id })}}">view</a><br>
+		{% endfor %}
+{% endblock %}

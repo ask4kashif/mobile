@@ -1,0 +1,19 @@
+{% block body %}
+
+	<div class="container">
+		<div class="row">
+			<h1>Page not found</h1>
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+    {% endif %}
+
+    <p style="color=blue">
+        The requested page couldn't be located. Checkout for any URL
+        misspelling or refresh the page or <a href="{{ path('_homePage') }}" style="color=blue">return to the homepage</a>.
+    </p>
+
+		</div>
+	</div>
+    
+{% endblock %}

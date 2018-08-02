@@ -1,0 +1,386 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	<script type="text/javascript">
+         $(".form_name").chosen({
+    disable_search_threshold: 10,
+    no_results_text: "Oops, nothing found!",
+    width: "95%"
+  });
+    </script>
+{% include 'Header/header.html.twig' %}				
+	<section>
+		<div class="container">
+			<div class="row">
+				{# Start Left Side Bar #}
+				<div class="col-sm-3">
+					<div class="left-sidebar">
+						<div class="brands_products"><!--brands_products-->
+							<h2>Brands</h2>
+							<div class="brands-name">
+								<ul class="nav nav-pills nav-stacked">
+									{% for item in brands %}
+										<li><a href="{{path('_productList',{'slug': item.slug})}}">{{item.name}}</a></li>
+									{% endfor %}
+								</ul>
+							</div>
+						</div><!--/brands_products-->
+						<div class="shipping text-center"><!--shipping-->
+							<img src="{{asset('images/home/shipping.jpg')}}" alt="" />
+						</div><!--/shipping-->
+					</div>
+				</div>{# End Left Side Bar #}
+				
+				{# Right Padding #}
+				<div class="col-sm-9 padding-right">
+					<div class="product-details"><!--product-details-->
+						<div class="col-sm-5">
+							<div class="view-product">
+								<img src="{{vich_uploader_asset( product,'imageFile')}}" alt="Not available" />
+							</div>
+							<div id="similar-product" class="carousel slide" data-ride="		carousel">
+								<!-- Wrapper for slides -->
+							    <div class="carousel-inner" >
+									<div class="item active" >
+									&emsp;&emsp;
+									<!-- Create a Cloud Zoom in the usual way. -->
+
+                				
+									 <img src="{{vich_uploader_asset( product,'imageFile')}}" alt="Not available" height="50" width="70" id="myImg"/>
+								
+									  <img src="{{vich_uploader_asset( product,'imageFiles')}}" alt="Not available" height="50" width="70" />
+
+									  <img src="{{vich_uploader_asset( product,'imageFiles2')}}" alt="Not available" height="50" width="70" />
+									</div>
+									
+									<div class="item">
+										&emsp;&emsp;
+									  <img src="{{vich_uploader_asset( product,'imageFile')}}" alt="Not available" height="50" width="70" />
+									  
+									  <img src="{{vich_uploader_asset( product,'imageFiles')}}" alt=" Not available" height="50" width="70" />
+									  
+									  <img src="{{vich_uploader_asset( product,'imageFiles2')}}" alt="Not available" height="50" width="70" />
+									</div>
+									{# <div class="item">
+									  <a href=""><img src="{{('images/product-details/similar1.jpg')}}" alt=""></a>
+									  <a href=""><img src="{{('images/product-details/similar2.jpg')}}" alt=""></a>
+									  <a href=""><img src="{{asset('images/product-details/similar3.jpg')}}" alt=""></a>
+									</div> #}
+									
+								</div>
+
+									<!-- Controls -->
+									<a class="left item-control" href="#similar-product" data-slide="prev">
+									<i class="fa fa-angle-left"></i>
+									</a>
+									<a class="right item-control" href="#similar-product" data-slide="next">
+									<i class="fa fa-angle-right"></i>
+									</a>
+							</div>
+
+						</div>
+
+						<div class="col-sm-7">
+							<div class="product-information"><!--/product-information-->
+								<img src="{{asset('images/product-details/new.jpg')}}" class="newarrival" alt="" />
+								<h2>{{product.brand}}</h2>
+								<p><b>Model:  {{product.modelname}}</p></b>
+								{# <img src="{{asset('images/product-details/rating.png')}}" alt="" /> #}
+								<br>
+								<p><b>Color:</b> {{product.color}}</p>
+								<p><b>Memory:</b> {{product.memory}}</p>
+								<span>
+									<span><b>$ {{product.price}}</span>
+								</span>
+								{# <p><b>Quantity</b></p> #}
+								<div class="row">
+								<div class="col-md-3">	
+									{# <form action="{{ path ('_cartAddPage' , {'id': product.id } ) }}" method="get">
+										<select class="qte" class="span1">
+											{% for i in 1..10 %}
+												<option value="{{ i }}">{{ i }}</option>
+											{% endfor %}
+										</select>
+										<div>
+											<button type="submit" class="btn cart">
+												<i class="fa fa-shopping-cart"></i>
+												Add to cart
+											</button>
+										</div>
+									</form> #}
+									{% if cart[product.id] is not defined %}
+											<a href="{{path('_cartAddPage',{'id': product.id})}}" 
+											class="btn btn-default add-to-cart">
+											<i class="fa fa-shopping-cart"></i>Add to cart</a>
+											{% else %}
+												<a href="{{path('cart')}}" 
+												class="btn btn-default add-to-cart">Product added</a>
+										{% endif %}
+								</div>
+								</div><br><br>
+								
+
+								{# <a href=""><img src="{{asset('images/product-details/share.png')}}" class="share img-responsive"  alt="" /></a> #}
+							</div><!--/product-information-->
+						</div>
+					</div><!--/product-details-->
+
+					<div class="category-tab shop-details-tab"><!--category-tab-->
+						<div class="col-sm-12">
+							<div id="myModal" class="modal">
+							  <span class="close">&times;</span>
+							  <img class="modal-content" id="img01">
+							<div id="caption"></div>
+						</div>
+							{# <ul class="nav nav-tabs">
+								<li><a href="#" data-toggle="tab">Specifications</a></li>
+							</ul>
+							{{product.spec.description|raw}} #}
+							 <ul class="nav nav-tabs">
+		    					<li class="active"><a data-toggle="tab" href="#home">Specifications</a></li>
+		    					{# <li><a data-toggle="tab" href="#menu1">Compare</a></li> #}
+		    					{# <li><a data-toggle="tab" href="#menu2">Review</a></li> #}
+		    					<li><a data-toggle="tab" href="#menu3">Video</a></li>
+		  					</ul>
+
+	  						<div class="tab-content">
+	    						<div id="home" class="tab-pane fade in active">
+	      							{{product.spec.description|raw}}
+	    						</div>
+	    						{# <div id="menu1" class="tab-pane fade">
+	      								{{form_row(form.name)}}<br>
+	      								{{form_row(form.save)}}<br>
+	      								<div class="col-sm-4">
+	      									{{product.spec.description|raw}}
+	      								</div>
+	      								<div class="col-md-4">
+	      									
+	      								</div>
+	    						</div> #}
+							    <div id="menu2" class="tab-pane fade">
+	      							<h3>Review</h3>
+	      							<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+	    						</div>
+	    						<div id="menu3" class="tab-pane fade">
+	      							<iframe width="420" height="315"	
+										src="{{product.link}}"alt="Not available">
+										}
+									</iframe>
+	    						</div>
+	  						</div>
+						</div>
+						</div>	
+					</div>
+					</div>
+					</div><!--/category-tab-->
+					{# <div class="recommended_items"><!--recommended_items-->
+						<h2 class="title text-center">recommended items</h2>
+						<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
+							<div class="carousel-inner">
+								<div class="item active">	
+									<div class="col-sm-4">
+										<div class="product-image-wrapper">
+											<div class="single-products">
+												<div class="productinfo text-center">
+													<img src="{{asset('images/home/recommend1.jpg')}}" alt="" />
+													<h2>$56</h2>
+													<p>Easy Polo Black Edition</p>
+													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="product-image-wrapper">
+											<div class="single-products">
+												<div class="productinfo text-center">
+													<img src="{{asset('images/home/recommend2.jpg')}}" alt="" />
+													<h2>$56</h2>
+													<p>Easy Polo Black Edition</p>
+													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="product-image-wrapper">
+											<div class="single-products">
+												<div class="productinfo text-center">
+													<img src="{{asset('images/home/recommend3.jpg')}}" alt="" />
+													<h2>$56</h2>
+													<p>Easy Polo Black Edition</p>
+													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="item">	
+									<div class="col-sm-4">
+										<div class="product-image-wrapper">
+											<div class="single-products">
+												<div class="productinfo text-center">
+													<img src="{{asset('images/home/recommend1.jpg')}}" alt="" />
+													<h2>$56</h2>
+													<p>Easy Polo Black Edition</p>
+													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="product-image-wrapper">
+											<div class="single-products">
+												<div class="productinfo text-center">
+													<img src="{{asset('images/home/recommend2.jpg')}}" alt="" />
+													<h2>$56</h2>
+													<p>Easy Polo Black Edition</p>
+													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="product-image-wrapper">
+											<div class="single-products">
+												<div class="productinfo text-center">
+													<img src="{{asset('images/home/recommend3.jpg')}}" alt="" />
+													<h2>$56</h2>
+													<p>Easy Polo Black Edition</p>
+													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							 <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+								<i class="fa fa-angle-left"></i>
+							  </a>
+							  <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
+								<i class="fa fa-angle-right"></i>
+							  </a>			
+					</div><!--/recommended_items--> #}
+				
+				</div>
+			</div>
+		</div>
+	</section>	
+	{% include 'Footer/footer.html.twig' %}
+{% endblock %}
+
+{% block stylesheets %}
+<style type="text/css">
+#myImg {
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#myImg:hover {opacity: 0.7;}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 0px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (image) */
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+/* Caption of Modal Image */
+#caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+
+/* Add Animation */
+.modal-content, #caption {    
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+    from {-webkit-transform:scale(0)} 
+    to {-webkit-transform:scale(1)}
+}
+
+@keyframes zoom {
+    from {transform:scale(0)} 
+    to {transform:scale(1)}
+}
+
+/* The Close Button */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+    .modal-content {
+        width: 100%;
+    }
+}
+
+</style>
+
+</style>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var img = document.getElementById('myImg');
+var modalImg = document.getElementById("img01");
+var captionText = document.getElementById("caption");
+img.onclick = function(){
+    modal.style.display = "block";
+    modalImg.src = this.src;
+    captionText.innerHTML = this.alt;
+}
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() { 
+    modal.style.display = "none";
+}
+</script>
+{% endblock %}    

@@ -1,0 +1,15 @@
+{% extends "@FOSUser/layout.html.twig" %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+	<div class="container"><br>
+		<div class="row">
+				<p style="color:blue" align="center">
+				{{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|nl2br }}
+				</p>
+				<div class="col-md-offset-4 col-md-4">
+					<a href="{{path('_homePage')}}" class="btn btn-primary form-control">Back</a>
+				</div>
+		</div>
+	</div><br><br><br><br><br><br><br><br><br>
+{% endblock %}

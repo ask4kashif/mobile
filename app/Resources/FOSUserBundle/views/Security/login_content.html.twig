@@ -1,0 +1,117 @@
+ 
+{% trans_default_domain 'FOSUserBundle' %}
+
+{# <section id="form" ><!--form--> #}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="login-form"><!--login form-->
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}
+                            </div>
+                        {% endif %}
+                        <h2 align="center"><b>Login to your account</b></h2>
+
+                        <form action="{{ path("fos_user_security_check") }}" method="post" class="form-signin">
+                             {% if csrf_token %}
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                            {% endif %}
+                            
+                            <div class="form-group">
+                                {# <label for="username">{{ 'security.login.username'|trans }}</label> #}
+                                <input 
+                                    type="text" 
+                                    id="username" 
+                                    name="_username" 
+                                    value="{{ last_username }}" 
+                                    required="required" 
+                                    placeholder="Username or Email" 
+                                    class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                {# <label for="password">{{ 'security.login.password'|trans }}</label> #}
+                                <input 
+                                    type="password" 
+                                    id="password" 
+                                    name="_password" 
+                                    required="required" 
+                                    placeholder="Password" 
+                                    class="form-control" />
+                            </div>
+                            <span>
+                                <input 
+                                type="checkbox" 
+                                id="remember_me" 
+                                name="_remember_me" 
+                                value="on" />
+                            <label
+                                for="remember_me">{{ 'security.login.remember_me'|trans }}
+                            </label>
+                           &emsp;&emsp;&emsp;&emsp;&nbsp;
+                           <a href="{{path('fos_user_resetting_request')}}">Forgot Password</a>
+                            </span>
+                            <div>
+                                <input 
+                                    type="submit" 
+                                    id="_submit" 
+                                    name="_submit" 
+                                    value="{{ 'security.login.submit'|trans }}" 
+                                    class="btn btn-primary " />
+                            </div>
+                            <div>
+                                <a href="{{path('_homePage')}}" class="btn btn-primary form-control">Back</a>
+                            </div>
+                        </form>
+                    </div><!--/login form-->
+                </div>
+        </div><br><br><br><br><br>
+    {# </section><!--/form--> #}
+    {% block stylesheets %}
+    <style>
+        /*body {
+            padding-top: 0px;
+            padding-bottom: 0px;
+    
+        }*/
+        .form-signin {
+            max-width: 330px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+
+        .form-signin .form-signin-heading,
+        .form-signin .checkbox {
+            margin-bottom: 10px;
+        }
+
+        .form-signin .checkbox {
+            font-weight: normal;
+        }
+
+        .form-signin .form-control {
+            position: relative;
+            height: auto;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .form-signin .form-control:focus {
+            z-index: 2;
+        }
+
+        .form-signin input[type="email"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .form-signin input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    </style>
+{% endblock %}

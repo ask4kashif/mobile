@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	{% set cartTotal = 0 %}
+{% include 'Header/header.html.twig' %}
+	<section id="cart_items">
+		<div class="container">			
+			<div class="col-md-12">
+				<div class="table cart_info">
+					<table class="table table-hover">					
+						<thead>
+							<tr class="cart_menu">
+								<td class="image">Item</td>
+								<td class="description"></td>
+								<td class="price">Price per unit</td>
+								<td class="quantity">Quantity</td>
+								<td class="total">Total Price</td>
+							</tr>
+						</thead>
+					<tbody>
+						{% for item in product %}	
+						<tr>
+							<form action="{{ path('_cartAddPage', {'id': item.id} )}}" method="get">
+								<td>
+								<img src="{{ vich_uploader_asset (item,'imageFile')}}" alt="Not available" height="80" , width="80" />
+							</td>
+							<td class="cart_description">
+								<h4>{{item.brand}}</a></h4>
+								<p><b>Model:</b> {{item.modelName}}<br> <b>Color:</b> {{item.color}}
+								</p>
+							</td>
+							<td class="cart_price">
+								<p style="margin-top: 25px;"><h4>$ {{item.price}}</h4></p>
+							</td>
+							<td class="cart_quantity">
+								<div class="cart_quantity_button">
+									<br>
+										{{ cart[item.id] }}
+								</div>
+							</td>
+							<td class="cart_total">
+								<p class="cart_total_price"  style="margin-top: 25px;">
+									<h4>$  {{item.price * cart[item.id]}}</h4></p>
+							</td>							
+						</form>
+						</tr>
+							{% set cartTotal = cartTotal + (item.price * cart[item.id]) %}
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	</section> <!--/#cart_items-->
+	<div class="container">
+		<div class="row">
+			<div class="pull-left">
+				<h4>Delivery Address</h4>
+				<dt>{{delivery.name}} , {{delivery.surname}}</dt>
+				<dt>{{delivery.address}}, {{delivery.city}}</dt>
+				<dt>{{delivery.cp}}</dt>
+				<dt>{{delivery.country}}</dt>
+			</div>
+		</div>
+	</div>
+	<section id="do_action">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-offset-6 col-md-6">
+					<div class="total_area">
+						<ul>
+							<li>Total <span>$ {{cartTotal}}</span></li>
+						</ul>
+							&emsp;&nbsp;<a class="btn btn-default check_out" href="{{path('_checkoutPage')}}" style="color:#FE980F">Back</a>
+							<a class="btn btn-default check_out" href="#" style="color:#FE980F">Pay</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section><!--/#do_action-->
+
+{% include 'Footer/footer.html.twig' %}
+{% endblock %}
+{% block stylesheets %}
+	<style >
+		.inventory_related thead {
+		  display: none;
+		}
+	</style>	
+ {% endblock %}

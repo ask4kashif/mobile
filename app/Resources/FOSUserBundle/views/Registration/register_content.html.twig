@@ -1,0 +1,28 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+ 		<div class="container">
+            <div class="row">
+            	<div class="login-form">
+                <div class="col-md-offset-4 col-md-4">
+                	<h2 align="center"><b>New User Signup!</b></h2>
+                		{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+    					{{ form_widget(form) }}    		
+    				<div><br>
+        				<input type="submit" value="{{ 'registration.submit'|trans }}" class="btn btn-primary form-control" />
+    				</div>
+                    <div>
+                        <a href="{{ path('_homePage') }}" class="btn btn-primary form-control">Back</a>   
+                    </div>
+					{{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+        </div><br><br><br><br>
+
+
+
+
+{# {{form_row(form.email,{'attr': {'class': 'form-control'}})}}
+    					{{form_row(form.username,{'attr': {'class': 'form-control'}})}}
+    					{{form_row(form.plainPassword.first,{'attr':{'class':'form-control'}})}}
+    					{{form_row(form.plainPassword.second,{'attr':{'class':'form-control'}})}} #}

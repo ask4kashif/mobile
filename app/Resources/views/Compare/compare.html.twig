@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+{% include 'Header/header.html.twig' %}
+<div class="container">
+	<div class="row">
+		<div class="col-sm-3">
+			<div class="left-sidebar">
+				<div class="brands_products"><!--brands_products-->
+					<h2>Brands</h2>
+					<div class="brands-name">
+						<ul class="nav nav-pills nav-stacked">
+							{% for item in brands %}
+								<li><a href="{{path('_productList',{'slug': item.slug})}}">{{item.name}}</a></li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div><!--/brands_products-->
+				{# {% include 'PriceRange/priceRange.html.twig'  %} #}
+				<div class="shipping text-center"><!--shipping-->
+					<img src="{{asset('images/home/shipping.jpg')}}" alt="" />
+				</div><!--/shipping-->
+			</div>
+		</div>
+	<div class="features_items"><!--features_items-->
+		<h2 class="title text-center">Compare Items</h2>
+			{{form_start(form)}}
+		<div class="col-md-offset-2 col-md-4 ui-widget">
+			{{form_row(form.compareTo)}}<br>
+			{{form_row(form.save)}}
+		</div>
+		<div class="col-md-4">
+			{{form_row(form.compareWith)}}<br>
+		</div>		
+	</div>
+	{{form_end(form)}}	
+	</div>
+</div>
+			
+<br><br><br><br>		
+{% include 'Footer/footer.html.twig' %}
+{% endblock %}
+
+{% block stylesheets %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" 
+rel="stylesheet" />
+<style type="text/css">
+
+</style>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+<script type="text/javascript">
+    var compare = Routing.generate('comparePage',true);
+      $("#form_compareTo").select2({
+    placeholder: 'Choose an Option',
+    source: function( request, response ) {
+        $.ajax({
+            url: compare,
+            
+        });
+    }
+});
+</script>
+<script type="text/javascript">
+    var compare = Routing.generate('comparePage',true);
+      $("#form_compareWith").select2({
+    placeholder: 'Choose an Option',
+    source: function( request, response ) {
+        $.ajax({
+            url: compare,
+            
+        });
+    }
+});
+</script>
+
+{% endblock %} 

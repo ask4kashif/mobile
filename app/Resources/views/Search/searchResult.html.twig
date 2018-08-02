@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+{% include 'Header/header.html.twig' %}
+<section>
+   <div class="container">
+      <div class="row">
+         <div class="col-sm-3">
+            <div class="left-sidebar">
+               <div class="brands_products">
+                  <!--brands_products-->
+                  <h2>Brands</h2>
+                  <div class="brands-name">
+                     <ul class="nav nav-pills nav-stacked">
+                        {% for item in brands %}
+                        <li><a href="{{path('_productList',{'slug': item.slug})}}">{{item.name}}</a>
+                        </li>
+                        {% endfor %}
+                     </ul>
+                  </div>
+               </div>
+               <!--/brands_products-->
+               {# {{ include('PriceRange/priceRange.html.twig') }} #}
+               <div class="shipping text-center">
+                  <!--shipping-->
+                  <img src="{{asset('images/home/shipping.jpg')}}" alt="" />
+               </div>
+               <!--/shipping-->
+            </div>
+         </div>
+         <div class="col-sm-9 padding-right">
+            <div class="features_items">
+               <!--All Products-->
+               <h2 class="title text-center">Search Result</h2>
+               <div class="row">	
+                  <div class="col-md-4">
+                     <div class="product-image-wrapper">
+                        <div class="single-products">
+                           <div class="productinfo text-center">
+                              <img src="{{ vich_uploader_asset (search,'imageFile')}}" alt="Not available" style="width:65%; height: 150px;" />
+                              <h2>${{search.price}}</h2>
+                              <p>{{search.category}}</p>
+                              <p>{{search.brand}} - {{search.modelName}}</p>
+                              <p>{{search.memory}} - {{search.color}}</p>
+                              {% if cart[search.id] is not defined %}
+                              <a href="{{path('_cartAddPage',{'id': search.id})}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                              {% else %}
+                              <a href="{{path('cart')}}" class="btn btn-default add-to-cart">Product added</a>
+                              {% endif %}
+                           </div>
+                           {# product-overlay #}
+                           {# 
+                           <div class="product-overlay">
+                              <div class="overlay-content">
+                                 <h2>${{item.price}}</h2>
+                                 <p>{{item.brand}} - {{item.modelName}}</p>
+                                 <p>{{item.memory}} - {{item.color}}</p>
+                                 {% if cart[item.id] is not defined %}
+                                 <a href="{{path('_cartAddPage',{'id': item.id})}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                 {% else %}
+                                 <a href="{{path('cart')}}" class="btn btn-default add-to-cart">Product added</a>
+                                 {% endif %}	
+                              </div>
+                           </div>
+                           #}
+                           {# End product-overlay #}
+                        </div>
+                        {# Choose #}
+                        <div class="choose">
+                           <ul class="nav nav-pills nav-justified">
+                              {# <li><a href=""><i class="fa fa-plus-square"></i>Add to wishlist</a></li> #}
+                              <li><a href="{{path('_show',{'id': search.id})}}"><i class="fa fa-eye" aria-hidden="true"></i>View Details</a></li>
+                           </ul>
+                        </div>
+                        {# End Choose #}
+                     </div>
+                  </div>
+                  
+                  
+               </div>
+            </div>
+         </div>
+         <!--All Products-->
+      </div>
+   </div>
+</section>
+<br><br>
+{% include 'Footer/footer.html.twig' %}
+{% endblock %}

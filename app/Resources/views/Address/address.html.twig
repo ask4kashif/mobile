@@ -1,0 +1,76 @@
+
+{% extends 'base.html.twig' %}
+{% block body %}
+{% include 'Header/header.html.twig' %}
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			{% include 'flash-messages.html.twig'%}
+		</div>
+		<div class="col-md-4">								
+					<h4>Shipping Address</h4>					
+					{% if user.address is empty %}
+						<span style="color:red">No address added</span>
+					{% endif %}	
+					<table class="table table-bordered">
+						{% for address in user.address %}	
+						<tr>
+							<td>
+						<i class="fa fa-user" aria-hidden="true"></i>&emsp;{{address.name}}&nbsp;{{address.surname}}<br>
+						<i class="fa fa-map-marker" aria-hidden="true"></i>&emsp;{{address.address}},{{address.city}},{{address.cp}},{{address.country}}<br>
+						<i class="fa fa-mobile" aria-hidden="true"></i>&emsp;{{address.telephone}}<br>
+						<a href="{{path('_delAddressPage',{'id':address.id})}}"
+						onclick="return confirm('Are you sure you want to Remove?');">
+						<i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Remove</a>&emsp;
+						<a href="{{path('_editAddressPage',{'id':address.id})}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
+						<br>										
+							</td>			
+						</tr>
+						{% endfor %}		
+					</table>
+							
+		</div>
+		<div class="col-md-offset-4 col-md-3">
+			<h4>Add Address</h4>
+			<form method="POST" action="{{ path('_addressPage') }}" class="form-signin">
+				
+				{{ form_row(form.name, {'label': 'Name', 'attr':{ 'class': 'form-control','placeholder':'Name'}} ) }}<br>
+				{{ form_row(form.surname, {'label': 'Surname', 'attr':{ 'class': 'form-control','placeholder':'Surname'}} ) }}<br>			
+				{{ form_row(form.address, {'label': 'Address', 'attr':{ 'class': 'form-control','placeholder':'Address'}} ) }}<br>
+				{{ form_row(form.country, {'label': 'Country', 'attr':{ 'class': 'form-control','placeholder':'Country'}} ) }}<br>
+				{{ form_row(form.cp, {'label': 'Postal Code', 'attr':{ 'class': 'form-control','placeholder':'Postal Code'}} ) }}<br>
+				{{ form_row(form.city, {'label': 'City', 'attr':{ 'class': 'form-control','placeholder':'City'}} ) }}<br>
+				{{ form_row(form.telephone, {'label': 'Telephone', 'attr':{ 'class': 'form-control','placeholder':'Contact Number'}} ) }}<br>
+			
+				<button class="btn btn-primary" type="submit">Submit</button>
+				<a href="{{path('fos_user_profile_show')}}" class="btn btn-primary" type="submit">Back</a>
+			</form>			
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" 
+rel="stylesheet" />
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+<script type="text/javascript">
+    var country = Routing.generate('_addressPage',true);
+      $("#appbundle_address_country").select2({
+    placeholder: 'Choose an Option',
+    source: function( request, response ) {
+        $.ajax({
+            url: country,
+            
+        });
+    }
+});
+</script>
+{% endblock %}

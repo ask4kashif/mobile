@@ -1,0 +1,49 @@
+
+{{form_start(form,{
+'attr':{'class':'search_box pull-right','action':path('_searchPage') }
+
+})}}
+
+{{form_widget(form.search,{
+'attr':{'class':'form-control search-query' }
+
+})}}
+
+{{form_end(form)}}
+
+{% block stylesheets %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" 
+rel="stylesheet" />
+<style type="text/css">
+
+#form_search{
+
+	width: 250px;
+}
+</style>
+
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script type="text/javascript">
+
+    var seaerch = Routing.generate('_searchPage',true);
+    
+    $("#form_search").select2({
+    placeholder: 'Search...',
+    minimumInputLength: 2,
+    source: function( request, response ) {
+        $.ajax({
+            url: search,
+ 
+
+        });
+
+    }
+});
+</script>
+{% endblock %}

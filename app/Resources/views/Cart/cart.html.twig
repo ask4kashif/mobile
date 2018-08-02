@@ -1,0 +1,174 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	{% set cartTotal = 0 %}
+{% include 'Header/header.html.twig' %}
+	<section id="cart_items">
+		<div class="container">			
+			<div class="breadcrumbs">
+				<ol class="breadcrumb">
+				  <li><a href="{{path('_homePage')}}">Home</a></li>
+				  <li class="active">Shopping Cart</li>
+				</ol>
+			</div>
+
+			<div class="col-md-12">
+			{# <div class="table cart_info"> #}
+				<table class="table table-hover inventory_related">					
+					<thead>
+						<tr class="cart_menu">
+							<td class="image"><span class="h3" style="color:#FE980F">Item</span></td>
+							<td class="description"></td>
+							<td class="price"><span class="h3" style="color:#FE980F">Price per unit</span></td>
+							<td class="quantity"><span class="h3" style="color:#FE980F">Quantity</span></td>
+							<td class="total"><span class="h3" style="color:#FE980F">Total Price</span></td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+						{% if product|length == 0 %}
+					
+								<div class="col-md-offset-3 col-md-6">
+									<img src="{{asset('images/empty-cart.jpg')}}" alt="" 
+									/>
+								</div>
+								{# <tr>
+									<td colspan="6"><p align="center" class="h3" style="color:grey">Cart is Empty</p></td>
+								</tr> #}
+
+						{% endif %}	
+						{% for item in product %}	
+						<tr>
+							<form action="{{ path('_cartAddPage', {'id': item.id} )}}" method="get">
+								<td>
+								<img src="{{ vich_uploader_asset (item,'imageFile')}}" alt="Not available" height="80" , width="80" />
+							</td>
+							<td class="cart_description">
+								<h4><a href="{{ path('_show',{'id': item.id}) }}">{{item.brand}}</a></h4>
+								<p><b>Model:</b> {{item.modelName}}<br> <b>Color:</b> {{item.color}}
+								<b>Memory: </b>{{item.memory}}
+								</p>
+								
+							</td>
+							<td class="cart_price">
+								<p style="margin-top: 25px;"><h4>$ {{item.price}}</h4></p>
+							</td>
+							<td class="cart_quantity">
+								<div class="cart_quantity_button">
+									<br>
+									<select name="qte" class="span1" onChange="this.form.submit()" style="width:50px "style="margin-top: 25px;">
+										{% for i in 1..5 %}
+										<option value="{{i}}" {% if i==cart[item.id] %} selected="selected"{% endif %}>{{i}}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</td>
+							<td class="cart_total">
+								<p class="cart_total_price"  style="margin-top: 25px;">
+									<h4>$  {{item.price * cart[item.id]}}</h4></p>
+							</td>
+							<td class="cart_delete">
+								<a class="cart_quantity_delete" href="{{path('_cartRemovePage',{'id':item.id})}}"><i class="fa fa-times"  style="margin-top: 25px;"></i></a>
+							</td>
+						</tr>
+						</form>
+						{% set cartTotal = cartTotal + (item.price * cart[item.id]) %}
+						
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		{# </div> #}
+		</div>
+	</section> <!--/#cart_items-->
+
+	<section id="do_action">
+		<div class="container">
+			{# <div class="heading">
+				<h3>What would you like to do next?</h3>
+				<p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
+			</div> #}
+			<div class="row">
+				{# <div class="col-sm-6">
+					<div class="chose_area">
+						<ul class="user_option">
+							<li>
+								<input type="checkbox">
+								<label>Use Coupon Code</label>
+							</li>
+							<li>
+								<input type="checkbox">
+								<label>Use Gift Voucher</label>
+							</li>
+							<li>
+								<input type="checkbox">
+								<label>Estimate Shipping & Taxes</label>
+							</li>
+						</ul>
+						<ul class="user_info">
+							<li class="single_field">
+								<label>Country:</label>
+								<select>
+									<option>United States</option>
+									<option>Bangladesh</option>
+									<option>UK</option>
+									<option>India</option>
+									<option>Pakistan</option>
+									<option>Ucrane</option>
+									<option>Canada</option>
+									<option>Dubai</option>
+								</select>
+								
+							</li>
+							<li class="single_field">
+								<label>Region / State:</label>
+								<select>
+									<option>Select</option>
+									<option>Dhaka</option>
+									<option>London</option>
+									<option>Dillih</option>
+									<option>Lahore</option>
+									<option>Alaska</option>
+									<option>Canada</option>
+									<option>Dubai</option>
+								</select>
+							
+							</li>
+							<li class="single_field zip-field">
+								<label>Zip Code:</label>
+								<input type="text">
+							</li>
+						</ul>
+						<a class="btn btn-default update" href="">Get Quotes</a>
+						<a class="btn btn-default check_out" href="">Continue</a>
+					</div>
+				</div> #}
+				{% if product|length !=0 %}
+				<div class="col-sm-offset-6 col-md-6">
+					<div class="total_area">
+						<ul>
+							
+							{# <li>Cart Sub Total <span>$ 1500</span></li> #}
+							{# <li>Eco Tax <span>$2</span></li>
+							<li>Shipping Cost <span>Free</span></li> #}
+							<li>Total <span>$ {{cartTotal}}</span></li>
+						
+						</ul>
+							&emsp;&nbsp;<a class="btn btn-default check_out" href="{{path('_checkoutPage')}}" style="color:#FE980F">Check Out</a>
+							{# <a class="btn btn-default update" href="">Update</a> #}
+						
+					</div>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</section><!--/#do_action-->
+
+{% include 'Footer/footer.html.twig' %}
+{% endblock %}
+{% block stylesheets %}
+	<style >
+		.inventory_related thead {
+		  display: none;
+		}
+	</style>	
+ {% endblock %}
